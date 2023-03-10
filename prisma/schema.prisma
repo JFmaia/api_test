@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @unique @default(uuid())
+  username String @unique
+  email String @unique
+  password String 
+  name String 
+  mod String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Solution {
+  id String @id @unique @default(uuid())
+  name String @unique
+  description String
+  imgUrl String
+
+  @@map("solutions")
+}
+
+model Member{
+  id String @id @unique @default(uuid())
+  name String 
+  registration String @unique
+  number String
+  role String
+  data_init DateTime @default(now())
+  data_up DateTime @updatedAt
+  description String
+  imgUrl String
+  
+  @@map("member")
+}
+
+model Contact {
+  id String @id @unique @default(uuid())
+  email String @unique
+  nome String 
+  empresa String
+  numero String
+  data_init DateTime @default(now())
+  data_up DateTime @updatedAt
+  proposta String
+
+  @@map("contacts")
+}
+
+model Post {
+  id String @id @unique @default(uuid())
+  title String @unique
+  description String
+  autor String
+  imgUrl String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  iterationOnPost Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id String @id @unique @default(uuid())
+  authorName String? 
+  text String
+  data_init DateTime @default(now())
+  data_up DateTime @updatedAt
+  iteration Post @relation(fields: [posts], references: [id])
+  posts String
+
+  @@map("comments")
+}
+
+model Deposition {
+
+  id String @id @unique @default(uuid())
+  name String
+  testimony String
+  office String
+  company String
+  imgUrl String
+
+  @@map("depositions")
+}
